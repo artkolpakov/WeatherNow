@@ -14,6 +14,10 @@
 		AC2751CB2BC22EAB006D1FEE /* WeatherNowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2751CA2BC22EAB006D1FEE /* WeatherNowTests.swift */; };
 		AC2751D52BC22EAB006D1FEE /* WeatherNowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2751D42BC22EAB006D1FEE /* WeatherNowUITests.swift */; };
 		AC2751D72BC22EAB006D1FEE /* WeatherNowUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2751D62BC22EAB006D1FEE /* WeatherNowUITestsLaunchTests.swift */; };
+		AC49C4F62BE4B317003C70ED /* FiveDayForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC49C4F52BE4B317003C70ED /* FiveDayForecast.swift */; };
+		AC49C4F82BE4B5FB003C70ED /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC49C4F72BE4B5FB003C70ED /* APIService.swift */; };
+		AC49C4FA2BE4B817003C70ED /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC49C4F92BE4B817003C70ED /* APIError.swift */; };
+		ACDABAC72BE4DB4B0018E177 /* ForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDABAC62BE4DB4B0018E177 /* ForecastViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,10 @@
 		AC2751D02BC22EAB006D1FEE /* WeatherNowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherNowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC2751D42BC22EAB006D1FEE /* WeatherNowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNowUITests.swift; sourceTree = "<group>"; };
 		AC2751D62BC22EAB006D1FEE /* WeatherNowUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNowUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AC49C4F52BE4B317003C70ED /* FiveDayForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDayForecast.swift; sourceTree = "<group>"; };
+		AC49C4F72BE4B5FB003C70ED /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		AC49C4F92BE4B817003C70ED /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		ACDABAC62BE4DB4B0018E177 /* ForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +106,10 @@
 				AC2751BB2BC22EA8006D1FEE /* ContentView.swift */,
 				AC2751BD2BC22EAA006D1FEE /* Assets.xcassets */,
 				AC2751BF2BC22EAA006D1FEE /* Preview Content */,
+				AC49C4F52BE4B317003C70ED /* FiveDayForecast.swift */,
+				AC49C4F72BE4B5FB003C70ED /* APIService.swift */,
+				AC49C4F92BE4B817003C70ED /* APIError.swift */,
+				ACDABAC62BE4DB4B0018E177 /* ForecastViewModel.swift */,
 			);
 			path = WeatherNow;
 			sourceTree = "<group>";
@@ -258,6 +270,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC2751BC2BC22EA8006D1FEE /* ContentView.swift in Sources */,
+				AC49C4F62BE4B317003C70ED /* FiveDayForecast.swift in Sources */,
+				AC49C4F82BE4B5FB003C70ED /* APIService.swift in Sources */,
+				ACDABAC72BE4DB4B0018E177 /* ForecastViewModel.swift in Sources */,
+				AC49C4FA2BE4B817003C70ED /* APIError.swift in Sources */,
 				AC2751BA2BC22EA8006D1FEE /* WeatherNowApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,9 +435,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WeatherNow/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -436,6 +454,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = artkolpakov.WeatherNow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -447,9 +466,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WeatherNow/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -464,6 +485,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = artkolpakov.WeatherNow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

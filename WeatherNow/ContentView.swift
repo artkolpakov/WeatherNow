@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isNightTime = false
+    @StateObject var forecastViewModel = ForecastViewModel()
+    
     var body: some View {
         ZStack {
-            BackgroundView(topColor: Color.blue, bottomColor: Color.lightBlue)
+            BackgroundView(isNightTime: isNightTime)
                            
             VStack {
                 LocationView(cityName: "Corvallis, OR")
@@ -27,6 +30,7 @@ struct ContentView: View {
                 
                 Button {
                     print("TODO: implement the button handler!")
+                    isNightTime.toggle()
                 } label: {
                     Text("Change Location")
                         .foregroundColor(Color.blue) // Set text color to black
@@ -38,23 +42,20 @@ struct ContentView: View {
                 
                 Spacer()
             }
+        }.task {
+            forecastViewModel.getForecastData()
         }
     }
 }
 
-#Preview {
-    ContentView()
-}
-
 struct BackgroundView: View {
-    var topColor: Color
-    var bottomColor: Color
+    var isNightTime: Bool
 
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: [topColor, bottomColor]),
+        LinearGradient(gradient: Gradient(colors: [isNightTime ? Color.black : Color.blue, isNightTime ? Color.gray : Color.lightBlue]),
                        startPoint: .topLeading,
                        endPoint: .bottomTrailing)
-            .edgesIgnoringSafeArea(.all)
+            .ignoresSafeArea()
     }
 }
 
@@ -76,7 +77,7 @@ struct CurrentWeatherDataView: View {
     var body: some View {
         VStack (spacing: 8){
             Image(systemName: image.name)
-                .renderingMode(.original)
+                .symbolRenderingMode(.multicolor)
                 .resizable()
                 .frame(width: 200, height: 150)
             
