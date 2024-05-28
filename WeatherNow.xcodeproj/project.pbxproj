@@ -17,6 +17,10 @@
 		AC49C4F62BE4B317003C70ED /* FiveDayForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC49C4F52BE4B317003C70ED /* FiveDayForecast.swift */; };
 		AC49C4F82BE4B5FB003C70ED /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC49C4F72BE4B5FB003C70ED /* APIService.swift */; };
 		AC49C4FA2BE4B817003C70ED /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC49C4F92BE4B817003C70ED /* APIError.swift */; };
+		AC9033D72C045A19007041CF /* ForecastLocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9033D62C045A19007041CF /* ForecastLocationSearchView.swift */; };
+		AC9033D92C046465007041CF /* ForecastLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9033D82C046465007041CF /* ForecastLocation.swift */; };
+		AC9033DB2C046774007041CF /* ForecastLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9033DA2C046774007041CF /* ForecastLocationViewModel.swift */; };
+		AC9033DD2C046A6B007041CF /* DeviceLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9033DC2C046A6B007041CF /* DeviceLocationManager.swift */; };
 		ACDABAC72BE4DB4B0018E177 /* ForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDABAC62BE4DB4B0018E177 /* ForecastViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +55,10 @@
 		AC49C4F52BE4B317003C70ED /* FiveDayForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDayForecast.swift; sourceTree = "<group>"; };
 		AC49C4F72BE4B5FB003C70ED /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		AC49C4F92BE4B817003C70ED /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		AC9033D62C045A19007041CF /* ForecastLocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastLocationSearchView.swift; sourceTree = "<group>"; };
+		AC9033D82C046465007041CF /* ForecastLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastLocation.swift; sourceTree = "<group>"; };
+		AC9033DA2C046774007041CF /* ForecastLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastLocationViewModel.swift; sourceTree = "<group>"; };
+		AC9033DC2C046A6B007041CF /* DeviceLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceLocationManager.swift; sourceTree = "<group>"; };
 		ACDABAC62BE4DB4B0018E177 /* ForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,6 +118,10 @@
 				AC49C4F72BE4B5FB003C70ED /* APIService.swift */,
 				AC49C4F92BE4B817003C70ED /* APIError.swift */,
 				ACDABAC62BE4DB4B0018E177 /* ForecastViewModel.swift */,
+				AC9033D62C045A19007041CF /* ForecastLocationSearchView.swift */,
+				AC9033D82C046465007041CF /* ForecastLocation.swift */,
+				AC9033DA2C046774007041CF /* ForecastLocationViewModel.swift */,
+				AC9033DC2C046A6B007041CF /* DeviceLocationManager.swift */,
 			);
 			path = WeatherNow;
 			sourceTree = "<group>";
@@ -270,11 +282,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC2751BC2BC22EA8006D1FEE /* ContentView.swift in Sources */,
+				AC9033D92C046465007041CF /* ForecastLocation.swift in Sources */,
+				AC9033DD2C046A6B007041CF /* DeviceLocationManager.swift in Sources */,
 				AC49C4F62BE4B317003C70ED /* FiveDayForecast.swift in Sources */,
+				AC9033DB2C046774007041CF /* ForecastLocationViewModel.swift in Sources */,
 				AC49C4F82BE4B5FB003C70ED /* APIService.swift in Sources */,
 				ACDABAC72BE4DB4B0018E177 /* ForecastViewModel.swift in Sources */,
 				AC49C4FA2BE4B817003C70ED /* APIError.swift in Sources */,
 				AC2751BA2BC22EA8006D1FEE /* WeatherNowApp.swift in Sources */,
+				AC9033D72C045A19007041CF /* ForecastLocationSearchView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +458,8 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app required access to the device's location";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app required access to the device's location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -473,6 +491,8 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app required access to the device's location";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app required access to the device's location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
