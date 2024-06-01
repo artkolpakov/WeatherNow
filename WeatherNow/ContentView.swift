@@ -59,12 +59,29 @@ struct ContentView: View {
                     
                     Spacer()
                 }
-            }.task {
-                // forecastViewModel.getForecastData()
-            }.fullScreenCover(isPresented: $isEditingLocation) {
-                ForecastLocationSearchView(forecastLocation: $forecastLocation, isEditingLocation: $isEditingLocation)
+            }.onAppear {
+                fetchForecast()
             }
+            .onChange(of: forecastLocation) { oldForecastLocation, newForecastLocation in
+                fetchForecast()
+            }
+        }.fullScreenCover(isPresented: $isEditingLocation) {
+            ForecastLocationSearchView(forecastLocation: $forecastLocation, isEditingLocation: $isEditingLocation)
         }
+    }
+    private func fetchForecast() {
+        let latitude: Double
+        let longitude: Double
+        
+        if forecastLocation.address.isEmpty {
+            latitude = deviceLocationManager.location?.coordinate.latitude ?? 44.564568
+            longitude = deviceLocationManager.location?.coordinate.longitude ?? -123.262047
+        } else {
+            latitude = forecastLocation.latitude
+            longitude = forecastLocation.longitude
+        }
+        
+        forecastViewModel.getForecastData(latitude: latitude, longitude: longitude)
     }
 }
 

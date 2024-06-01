@@ -11,12 +11,14 @@ final class APIService {
     static let shared = APIService()    // Create a Singleton Class
     
     static let baseURL = "https://api.openweathermap.org/data/2.5/"
-    private let forecastURL = "https://api.openweathermap.org/data/2.5/forecast?lat=44.564568&lon=-123.262047&appid=YOUR_API_KEY"
+    private let apiKey = "YOUR_API_KEY"
     
     private init() {}
     
-    func getForecast() async throws -> FiveDayForecast {
-        guard let url = URL(string: forecastURL) else {
+    func getForecast(latitude: Double, longitude: Double) async throws -> FiveDayForecast {
+        let forecastURLString = "\(APIService.baseURL)forecast?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)"
+        
+        guard let url = URL(string: forecastURLString) else {
             throw APIError.invalidURL
         }
         

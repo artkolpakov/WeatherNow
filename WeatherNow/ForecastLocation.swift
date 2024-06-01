@@ -8,8 +8,8 @@
 import Foundation
 import MapKit
 
-struct ForecastLocation: Identifiable {
-    let id = UUID().uuidString
+struct ForecastLocation: Identifiable, Equatable {
+    let id = UUID()
     private var mapItem: MKMapItem
     
     init(mapItem: MKMapItem) {
@@ -50,5 +50,13 @@ struct ForecastLocation: Identifiable {
     
     var longitude: CLLocationDegrees {
         self.mapItem.placemark.coordinate.longitude
+    }
+    
+    // Conformance to Equatable
+    static func == (lhs: ForecastLocation, rhs: ForecastLocation) -> Bool {
+        lhs.id == rhs.id &&
+        lhs.latitude == rhs.latitude &&
+        lhs.longitude == rhs.longitude &&
+        lhs.address == rhs.address
     }
 }
