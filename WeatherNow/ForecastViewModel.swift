@@ -5,11 +5,12 @@ import SwiftUI
     @Published var dailyForecasts: [String: [FiveDayForecast.Forecast]] = [:]
     @Published var isLoading = false
     @Published var upcomingDailyData: [(id: UUID, weekDay: String, icon: String, minTemp: Int, maxTemp: Int)] = []
-
-    func getForecastData(latitude: Double, longitude: Double) {
+    @Published var units: String = "metric" // Default units
+    
+    func getForecastData(latitude: Double, longitude: Double, units: String) {
         Task {
             do {
-                forecast = try await APIService.shared.getForecast(latitude: latitude, longitude: longitude)
+                forecast = try await APIService.shared.getForecast(latitude: latitude, longitude: longitude, units: units)
                 print("forecast fetch for \(forecast!.city.name) succeeded, forecast 5 day data:")
                 processForecastData()
                 prepareUpcomingDailyData()

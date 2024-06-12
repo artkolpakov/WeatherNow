@@ -11,7 +11,7 @@ import MapKit
 struct ContentView: View {
     @State private var isNightTime = false
     @State private var forecastLocation = ForecastLocation(mapItem: MKMapItem())
-    
+    @State private var isMetric = true
     @State private var isEditingLocation = false
     @EnvironmentObject var deviceLocationManager: DeviceLocationManager
     @StateObject var forecastViewModel = ForecastViewModel()
@@ -19,6 +19,18 @@ struct ContentView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
+                HStack {
+                    Text("F°")
+                        .foregroundColor(.white)
+                    Toggle("", isOn: $isMetric)
+                        .labelsHidden()
+                        .toggleStyle(SwitchToggleStyle(tint: .darkBlue))
+                    Text("C°")
+                        .foregroundColor(.white)
+                }
+                .padding(.top, 55)
+                .padding(.bottom, 5)
+                
                 if let forecast = forecastViewModel.forecast {
                     CurrentWeatherSummaryView(
                         cityName: forecast.city.name,
@@ -28,12 +40,12 @@ struct ContentView: View {
                         lowTemperature: Int(forecast.list[0].main.temp_min),
                         isEditingLocation: $isEditingLocation
                     )
-                    .padding(.top, 55)
+                    .padding(.top, 0)
                     .padding(.bottom, 30)
                     
                     
                     CurrentWeatherHourlyDataView(
-                        description: "Expect \(forecast.list[0].weather[0].description) conditions within the next few hours. Wind gusts are up to \(forecast.list[0].wind.speed) m/s \(precipitationProbability(from: forecast.list[0].pop))",
+                        description: "Expect \(forecast.list[0].weather[0].description) conditions within the next few hours. Wind gusts are up to \(forecast.list[0].wind.speed) \(isMetric ? "mps": "mph")\(precipitationProbability(from: forecast.list[0].pop))",
                         hourlyData: forecast.list.prefix(39).map { forecast in
                             let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "HH:mm"
@@ -53,6 +65,9 @@ struct ContentView: View {
                 fetchForecast()
             }
             .onChange(of: forecastLocation) { oldForecastLocation, newForecastLocation in
+                fetchForecast()
+            }
+            .onChange(of: isMetric) { oldIsMetric, newIsMetric in
                 fetchForecast()
             }
         }
@@ -82,6 +97,9 @@ struct ContentView: View {
             longitude = forecastLocation.longitude
         }
         
-        forecastViewModel.getForecastData(latitude: latitude, longitude: longitude)
+        let units = isMetric ? "metric" : "imperial"
+        forecastViewModel.getForecastData(latitude: latitude, longitude: longitude, units: units)
+        
+        forecastViewModel.getForecastData(latitude: latitude, longitude: longitude, units: units)
     }
 }
