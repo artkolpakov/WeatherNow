@@ -10,6 +10,8 @@ import SwiftUI
     func getForecastData(latitude: Double, longitude: Double, units: String) {
         Task {
             do {
+                isLoading = true
+
                 forecast = try await APIService.shared.getForecast(latitude: latitude, longitude: longitude, units: units)
                 print("forecast fetch for \(forecast!.city.name) succeeded, forecast 5 day data:")
                 processForecastData()

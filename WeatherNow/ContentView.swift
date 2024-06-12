@@ -31,6 +31,16 @@ struct ContentView: View {
                 .padding(.top, 55)
                 .padding(.bottom, 5)
                 
+                if forecastViewModel.isLoading {
+                    HStack {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .darkBlue))
+                            .scaleEffect(3)
+                    }
+                    .padding(.top, 225)
+                    .frame(maxWidth: .infinity)
+                }
+                
                 if let forecast = forecastViewModel.forecast {
                     CurrentWeatherSummaryView(
                         cityName: forecast.city.name,
