@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var isEditingLocation = false
     @EnvironmentObject var deviceLocationManager: DeviceLocationManager
     @StateObject var forecastViewModel = ForecastViewModel()
+    private var locationStorage = LocationStorage()
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -75,6 +76,7 @@ struct ContentView: View {
                 fetchForecast()
             }
             .onChange(of: forecastLocation) { oldForecastLocation, newForecastLocation in
+                saveLocation()
                 fetchForecast()
             }
             .onChange(of: isMetric) { oldIsMetric, newIsMetric in
@@ -96,20 +98,27 @@ struct ContentView: View {
     }
     
     private func fetchForecast() {
-        let latitude: Double
-        let longitude: Double
-        
-        if forecastLocation.address.isEmpty {
-            latitude = deviceLocationManager.location?.coordinate.latitude ?? 44.564568
-            longitude = deviceLocationManager.location?.coordinate.longitude ?? -123.262047
-        } else {
-            latitude = forecastLocation.latitude
-            longitude = forecastLocation.longitude
-        }
-        
+        let (latitude, longitude) = determineLocation()
         let units = isMetric ? "metric" : "imperial"
         forecastViewModel.getForecastData(latitude: latitude, longitude: longitude, units: units)
-        
-        forecastViewModel.getForecastData(latitude: latitude, longitude: longitude, units: units)
+    }
+    
+    private func determineLocation() -> (Double, Double) {
+      let lastLocation = locationStorage.getLastLocation()
+      if let latitude = lastLocation.latitude, let longitude = lastLocation.longitude {
+        return (latitude, longitude)
+      } else {
+        if forecastLocation.address.isEmpty {
+          return (deviceLocationManager.location?.coordinate.latitude ?? 44.564568,
+                  deviceLocationManager.location?.coordinate.longitude ?? -123.262047)
+        } else {
+          return (forecastLocation.latitude, forecastLocation.longitude)
+        }
+      }
+    }
+    
+    private func saveLocation() {
+        locationStorage.saveLocation(latitude: forecastLocation.latitude, longitude: forecastLocation.longitude)
+        print("Stored latitude: \(forecastLocation.latitude) and longitude: \(forecastLocation.longitude) locally.")
     }
 }
