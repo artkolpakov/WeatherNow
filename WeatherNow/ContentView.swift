@@ -19,16 +19,34 @@ struct ContentView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
-                CurrentWeatherSummaryView(cityName: forecastLocation.address.isEmpty ? "Corvallis, OR" : forecastLocation.address, currentTemperature: 55, isEditingLocation: $isEditingLocation)
+                if let forecast = forecastViewModel.forecast {
+                    CurrentWeatherSummaryView(
+                        cityName: forecast.city.name,
+                        currentTemperature: Int(forecast.list[0].main.temp),
+                        weatherDescription: forecast.list[0].weather[0].description,
+                        highTemperature: Int(forecast.list[0].main.temp_max),
+                        lowTemperature: Int(forecast.list[0].main.temp_min),
+                        isEditingLocation: $isEditingLocation
+                    )
                     .padding(.top, 55)
-                    .padding(.bottom, 35)
-                
-                CurrentWeatherHourlyDataView(image: (name: "cloud.sun.fill", width: 200, height: 150), temperature: 76)
+                    .padding(.bottom, 30)
+                    
+                    
+                    CurrentWeatherHourlyDataView(
+                        description: "Expect \(forecast.list[0].weather[0].description) conditions within the next few hours. Wind gusts are up to \(forecast.list[0].wind.speed) m/s \(precipitationProbability(from: forecast.list[0].pop))",
+                        hourlyData: forecast.list.prefix(39).map { forecast in
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "HH:mm"
+                            let time = dateFormatter.string(from: forecast.dt)
+                            return (id: UUID(), time: time, icon: forecast.weather[0].icon, temperature: Int(forecast.main.temp))
+                        }
+                    )
                     .padding(.bottom, 10)
-                
-                UpcomingDailyForecastView()
-                
-                Spacer()
+                    
+                    UpcomingDailyForecastView(dailyData: forecastViewModel.upcomingDailyData)
+                    
+                    Spacer()
+                }
             }
             .padding(.horizontal)
             .onAppear {
@@ -65,177 +83,5 @@ struct ContentView: View {
         }
         
         forecastViewModel.getForecastData(latitude: latitude, longitude: longitude)
-    }
-}
-
-struct CurrentWeatherSummaryView: View {
-    var cityName: String
-    var currentTemperature: Int
-    
-    @Binding var isEditingLocation: Bool
-    
-    var body: some View {
-        VStack {
-            Button(action: {
-                isEditingLocation.toggle()
-            }) {
-                HStack(spacing: 5) {
-                    Text(cityName)
-                        .font(.system(size: 32))
-                        .foregroundColor(.white)
-                        .shadow(radius: 2.0)
-                    
-                    Image(systemName: "pencil")
-                        .foregroundColor(.white)
-                        .font(.system(size: 20))
-                }
-            }
-            
-            ZStack {
-                Text("\(currentTemperature)")
-                    .font(.system(size: 100))
-                    .fontWeight(.thin)
-                    .foregroundColor(.white)
-                    .shadow(radius: 2.0)
-                
-                Text("°")
-                    .font(.system(size: 90))
-                    .fontWeight(.thin)
-                    .foregroundColor(.white)
-                    .shadow(radius: 2.0)
-                    .offset(x: degreeSymbolOffsetX(for: currentTemperature), y: -4)
-            }
-            
-            Text("Mostly Sunny")
-                .font(.system(size: 18))
-                .fontWeight(.medium)
-                .shadow(radius: 2.0)
-                .foregroundColor(.white)
-                .shadow(radius: 2.0)
-            
-            Text("H:72° L:12°")
-                .font(.system(size: 18))
-                .fontWeight(.medium)
-                .foregroundColor(.white)
-                .shadow(radius: 2.0)
-        }
-    }
-    
-    // Function to calculate the offset for the degree symbol based on the length of the temperature string
-    func degreeSymbolOffsetX(for temperature: Int) -> CGFloat {
-        let temperatureString = String(temperature)
-        let digitCount = temperatureString.count
-        
-        switch digitCount {
-        case 1: // One digit
-            return 40
-        case 2: // Two digits
-            return 72
-        case 3: // Three digits (including negative sign)
-            return 90
-        default:
-            return 72
-        }
-    }
-}
-
-
-struct CurrentWeatherHourlyDataView: View {
-    var image: (name: String, width: Int, height: Int)
-    var temperature: Int
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("description description description description description description ")
-                .font(.system(size: 14))
-                .fontWeight(.medium)
-                .foregroundColor(.white)
-                .shadow(radius: 2.0)
-                .padding(.bottom, 6)
-            
-            Divider()
-                .overlay(Color.white)
-                .padding(.bottom, 10)
-            
-            ScrollView(.horizontal) {
-                HStack {
-                    ForEach(1..<4) { _ in
-                        VStack {
-                            Text("13:00")
-                                .font(.system(size: 14))
-                                .fontWeight(.semibold)
-                                .foregroundColor(.white)
-                            
-                            Image(systemName: image.name)
-                                .symbolRenderingMode(.multicolor)
-                                .resizable()
-                                .frame(width: 25, height: 20)
-                                .padding(.vertical, 4)
-                            
-                            Text("\(temperature)°")
-                                .font(.system(size: 20))
-                                .fontWeight(.medium)
-                                .foregroundColor(.white)
-                        }
-                        .padding(.trailing, 14)
-                    }
-                }
-            }.scrollIndicators(.never)
-        }
-        .padding(14)
-        .background(
-            RoundedRectangle(cornerRadius: 16.0)
-                .fill(Color.darkBlue.opacity(0.38))
-        )
-    }
-}
-
-struct UpcomingDailyForecastView: View {
-    var body: some View {
-        VStack(alignment: .leading) {
-            (Text(Image(systemName: "calendar")) + Text("  5-Day Forecast".uppercased()))
-                .font(.system(size: 12))
-                .fontWeight(.medium)
-                .foregroundColor(.white.opacity(0.6))
-            
-            Divider()
-                .overlay(Color.white)
-            
-            ForEach(0..<5) { _ in
-                HStack {
-                    Text("Today")
-                        .font(.system(size: 18))
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                    
-                    Spacer()
-                    
-                    Image(systemName: "sun.max.fill")
-                        .foregroundColor(.yellow)
-                        .font(.system(size: 20))
-                    
-                    Spacer()
-                        .frame(maxWidth: 110)
-                    
-                    (Text("52°") + Text(Image(systemName: "thermometer.low")).foregroundColor(.blue.opacity(0.8)))
-                        .foregroundColor(.white)
-                        .font(.system(size: 19))
-                    
-                    Spacer()
-                        .frame(maxWidth: 15.0)
-                    
-                    (Text("72°") + Text(Image(systemName: "thermometer.high")).foregroundColor(.red.opacity(0.8)))
-                        .foregroundColor(.white)
-                        .font(.system(size: 19))
-                }
-                Divider()
-                    .overlay(Color.white)
-            }
-        }
-        .padding(10)
-        .background(
-            RoundedRectangle(cornerRadius: 16.0)
-                .fill(Color.darkBlue.opacity(0.38))
-        )
     }
 }

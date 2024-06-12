@@ -16,7 +16,7 @@ final class APIService {
     private init() {}
     
     func getForecast(latitude: Double, longitude: Double) async throws -> FiveDayForecast {
-        let forecastURLString = "\(APIService.baseURL)forecast?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)"
+        let forecastURLString = "\(APIService.baseURL)forecast?lat=\(latitude)&lon=\(longitude)&units=metric&appid=\(apiKey)"
         
         guard let url = URL(string: forecastURLString) else {
             throw APIError.invalidURL
