@@ -4,6 +4,7 @@ import SwiftUI
     @Published var forecast: FiveDayForecast?
     @Published var dailyForecasts: [String: [FiveDayForecast.Forecast]] = [:]
     @Published var isLoading = false
+    @Published var isErrorState = false
     @Published var upcomingDailyData: [(id: UUID, weekDay: String, icon: String, minTemp: Int, maxTemp: Int)] = []
     @Published var units: String = "metric" // Default units
     
@@ -26,6 +27,7 @@ import SwiftUI
                     print("Another error type")
                 }
                 isLoading = false
+                isErrorState = true
             }
         }
     }

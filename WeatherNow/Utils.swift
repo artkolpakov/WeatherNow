@@ -51,3 +51,15 @@ func precipitationProbability(from pop: Double) -> String {
         return "with a high chance of precipitation."
     }
 }
+
+// Determine if it's nighttime based on the current device time
+func isNightTimeNow() -> Bool {
+    let calendar = Calendar.current
+    let now = Date()
+    let currentHour = calendar.component(.hour, from: now)
+
+    let nightStartHour = 19     // 7 PM
+    let nightEndHour = 7        // 7 AM
+
+    return currentHour >= nightStartHour || currentHour < nightEndHour
+}

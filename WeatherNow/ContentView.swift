@@ -9,7 +9,9 @@ import SwiftUI
 import MapKit
 
 struct ContentView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var isNightTime = false
+    
     @State private var forecastLocation = ForecastLocation(mapItem: MKMapItem())
     @State private var isMetric = true
     @State private var isEditingLocation = false
@@ -39,6 +41,28 @@ struct ContentView: View {
                             .scaleEffect(3)
                     }
                     .padding(.top, 225)
+                    .frame(maxWidth: .infinity)
+                }
+                
+                if forecastViewModel.isErrorState {
+                    HStack {
+                        Text("Error fetching forecast 😦")
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                            .shadow(radius: 2.0)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.top, 225)
+                    .frame(maxWidth: .infinity)
+                    
+                    HStack {
+                        Text("Please try again later!")
+                            .font(.system(size: 18))
+                            .foregroundColor(.white)
+                            .shadow(radius: 2.0)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.top, 5)
                     .frame(maxWidth: .infinity)
                 }
                 
@@ -73,6 +97,7 @@ struct ContentView: View {
             }
             .padding(.horizontal)
             .onAppear {
+                isNightTime = isNightTimeNow()
                 fetchForecast()
             }
             .onChange(of: forecastLocation) { oldForecastLocation, newForecastLocation in
@@ -90,10 +115,17 @@ struct ContentView: View {
     }
     
     var BackgroundStyle: some ShapeStyle {
-        return LinearGradient(
-            gradient: Gradient(colors: [isNightTime ? Color.black : Color.blue, isNightTime ? Color.gray : Color.lightBlue]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
+        LinearGradient(
+            gradient: Gradient(colors: isNightTime
+                ? [
+                    Color(red: 0.2, green: 0.25, blue: 0.3).opacity(0.85),  // Lighter teal-ish blue
+                    Color(red: 0.3, green: 0.3, blue: 0.35).opacity(0.7),   // Light gray-blue
+                    Color(red: 0.45, green: 0.35, blue: 0.2).opacity(0.55), // Muted light orange-brown
+                    Color(red: 0.3, green: 0.3, blue: 0.3).opacity(0.8)     // Light gray
+                ]
+                :   [Color.blue, Color.lightBlue]),
+            startPoint: .top,
+            endPoint: .bottom
         )
     }
     
